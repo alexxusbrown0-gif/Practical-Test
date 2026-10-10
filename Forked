@@ -3,16 +3,26 @@
 
 p_hp = 50
 b_hp = 50
+
+# These credentials being hardcoded into the code exposes vulnerability to anyone who can access the source code.
+#You could remove the SECRET_CODE and the cheat logic from the gameloop to close this backdoor.
 SECRET_CODE = "ADMIN_ACCESS_2025"
 MAX_HP = 50
 
 def attack():
     global b_hp
+
+#The boss's health must decrease when the player attacks.
+#Ensure that b_hp -=10 is excuted and prevent the boss's health from dropping below 0.
     b_hp -= 10
     if b_hp < 0:
         b_hp = 0
     print("You deal 10 damage!")
 
+# A defeated player with 0 HP or less should not be able to heal.
+#Check the p_hp <= 0 before applying this heal.
+#Make sure the health never goes over 50 which is the max.
+#Need to add a cap at the MAX_HP after adding the healing amount. 
 def heal():
     global p_hp
     if p_hp <= 0:
@@ -23,6 +33,9 @@ def heal():
         p_hp = MAX_HP
     print(f"Healed! HP is now {p_hp}")
 
+
+#The game needs to recognize when the boss's health reaches 0.
+#Add a print "VICTORY" and use a break to term. the game loop. 
 # --- Simple Game Loop ---
 while p_hp > 0 and b_hp > 0:
     print(f"\nPlayer: {p_hp} | Boss: {b_hp}")
